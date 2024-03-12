@@ -1,10 +1,12 @@
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Image, ToastAndroid } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Image, ToastAndroid, Alert, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { app } from '../../firebaseConfig';
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, getDocs, getFirestore, doc, setDoc, addDoc } from "firebase/firestore";
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useUser } from '@clerk/clerk-expo';
 
 export default function AddPostScreen() {
   const [image, setImage] = useState(null);
@@ -12,6 +14,9 @@ export default function AddPostScreen() {
   // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 const [categoryList, setCategoryList] = useState([]);
+const storage = getStorage();
+const {user} = useUser();
+const [loading, setLoading] = useState(false);
 
 useEffect(() => {
 getCategoryList();
@@ -41,17 +46,41 @@ getCategoryList();
     }
   };
 
-  const onSubmitMethod = (value) => {
-    value.image = image;
-    console.log(value)
+  const onSubmitMethod = async(value, actions) => {
+    setLoading(true);
+    const resp = await fetch(image);
+    const blob = await resp.blob();
+    const storageRef = ref(storage, 'allPosts/' + Date.now() + ".jpg");
+
+    // 'file' comes from the Blob or File API
+uploadBytes(storageRef, blob).then((snapshot) => {
+  console.log('Uploaded a blob or file!');
+}).then((resp) => {
+  getDownloadURL(storageRef).then(async(downloadUrl) => {
+    console.log(downloadUrl);
+    value.image = downloadUrl;
+    value.userName = user.fullName;
+    value.userEmail = user.primaryEmailAddress.emailAddress;
+    value.userImage = user.imageUrl;
+
+    const docRef = await addDoc(collection(db, "UserPost"), value)
+    if(docRef.id)
+    {
+      setLoading(false);
+      Alert.alert("Post has been added");
+      actions.resetForm();
+      setImage(null);
+    }
+  })
+});
 
   }
   return (
     <View className="p-10">
       <Text className='text-[27px] font-bold'>Add New Post</Text>
       <Formik 
-      initialValues={{title:'', name:'', desc:'', category:'', image:''}}
-      onSubmit={value => onSubmitMethod(value)}
+      initialValues={{title:'', desc:'', category:'', image:'', userName: '', userEmail: '', userImage: ''}}
+      onSubmit={(value, actions) => onSubmitMethod(value, actions)}
       validate={(values) => {
         const errors = {}
         if(!values.title) 
@@ -105,9 +134,19 @@ getCategoryList();
         </Picker> 
 
         </View>
-        <TouchableOpacity className='p-4 bg-blue-500 rounded-full mt-10'
+        <TouchableOpacity 
+        style={{
+          backgroundColor: loading? '#ccc' : '#007BFF'
+        }}
+        disabled={loading}
+        className='p-4 bg-blue-500 rounded-full mt-10'
         onPress={handleSubmit}>
+          {loading?
+          <ActivityIndicator color='#fff' />
+          :
           <Text className='text-white text-center text-[16px]'>Submit</Text>
+        }
+          
         </TouchableOpacity>
 
       
