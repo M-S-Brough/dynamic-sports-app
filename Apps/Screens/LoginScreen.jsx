@@ -30,7 +30,7 @@ export default function LoginScreen() {
 
   return (
     <View>
-      <Image source={require('./../../assets/login.jpg')}
+      <Image source={require('./../../assets/images/login.jpg')}
             className = "w-full h-[400px] object-cover" 
       />
       <View className="p-8 bg-white mt-[-20px] rounded-t-3xl shadow-md">
