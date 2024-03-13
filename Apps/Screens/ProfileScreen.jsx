@@ -5,36 +5,46 @@ import diary from './../../assets/images/diary.png';
 import logout from './../../assets/images/logout.png';
 import search from './../../assets/images/search.png';
 import logo from './../../assets/images/login.jpg';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function ProfileScreen() {
 
   const {user} = useUser();
+  const navigation = useNavigation();
   const menuList = [
     {
       id: 1,
       name: 'My Posts',
-      icon: diary
+      icon: diary,
+      path: 'my-post'
     },
 
     {
       id: 2,
       name: 'Explore',
-      icon: search
+      icon: search,
+      path: 'explore'
     },
 
     {
       id: 3,
       name: 'Undecided',
-      icon: logo
+      icon: logo,
+      url: ''
     },
 
     {
       id: 4,
       name: 'Logout',
-      icon: logout
+      icon: logout,
     }
   ]
+
+  const onMenuPress = (item) => {
+    item?.path? navigation.navigate(item.path) : null;
+
+  }
 
   return (
     <View className="p-5 bg-white flex-1">
@@ -50,7 +60,8 @@ export default function ProfileScreen() {
       numColumns={3}
       style={{marginTop:20}}
       renderItem={({item, index}) => (
-        <TouchableOpacity className="flex-1 p-3 border-[1px] items-center 
+        <TouchableOpacity onPress={() => onMenuPress(item)} 
+        className="flex-1 p-3 border-[1px] items-center 
         mx-2 mt-4 rounded-lg border-sky-500">
           {item.icon&& <Image source={item?.icon} 
           className="w-[50px] h-[50px]" />}
