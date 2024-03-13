@@ -26,7 +26,7 @@ export default function ExploreScreen() {
   }
 
   return (
-    <ScrollView className="p-5 py-8">
+    <ScrollView className="p-5 py-8 bg-white flex-1">
       <Text className="text-[24px] font-bold">Explore More</Text>
       <LatestPostList latestPostList={postList} />
     </ScrollView>

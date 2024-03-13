@@ -79,7 +79,7 @@ uploadBytes(storageRef, blob).then((snapshot) => {
 
     <KeyboardAvoidingView>
 
-    <ScrollView className="p-10">
+    <ScrollView className="p-10 bg-white">
       <Text className='text-[27px] font-bold'>Add New Post</Text>
       <Formik 
       initialValues={{title:'', desc:'', category:'', image:'', userName: '', userEmail: '', userImage: '', createdAt: Date.now()}}
