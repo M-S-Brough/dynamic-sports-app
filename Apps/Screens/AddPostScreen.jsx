@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Image, ToastAndroid, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Image, ToastAndroid, Alert, ActivityIndicator, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { app } from '../../firebaseConfig';
 import { collection, getDocs, getFirestore, doc, setDoc, addDoc } from "firebase/firestore";
@@ -76,10 +76,13 @@ uploadBytes(storageRef, blob).then((snapshot) => {
 
   }
   return (
-    <View className="p-10">
+
+    <KeyboardAvoidingView>
+
+    <ScrollView className="p-10">
       <Text className='text-[27px] font-bold'>Add New Post</Text>
       <Formik 
-      initialValues={{title:'', desc:'', category:'', image:'', userName: '', userEmail: '', userImage: ''}}
+      initialValues={{title:'', desc:'', category:'', image:'', userName: '', userEmail: '', userImage: '', createdAt: Date.now()}}
       onSubmit={(value, actions) => onSubmitMethod(value, actions)}
       validate={(values) => {
         const errors = {}
@@ -156,7 +159,8 @@ uploadBytes(storageRef, blob).then((snapshot) => {
       )}
 
       </Formik>
-    </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 

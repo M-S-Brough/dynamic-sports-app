@@ -12,7 +12,7 @@ export default function Categories({categoryList}) {
         numColumns={4}
         renderItem={({item, index}) => (
           <TouchableOpacity className="flex-1 items-center justify-center p-2 
-          border-[1px] border-blue-200 m-1 h-[80px] rounded-lg"> 
+          border-[1px] border-sky-300 m-1 h-[80px] rounded-lg"> 
             <Image source={{uri: item?.icon}}
             className="w-[40px] h-[40px]" />
 
