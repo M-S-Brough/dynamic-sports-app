@@ -7,6 +7,7 @@ import AddPostScreen from '../Screens/AddPostScreen';
 import ProfileScreen from '../Screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreenStackNav from './HomeScreenStackNav';
+import ExploreScreenStackNav from './ExploreScreenStackNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ export default function TabNavigation() {
           }}
         />
         
-        <Tab.Screen name='explore' component={ExploreScreen} 
+        <Tab.Screen name='explore' component={ExploreScreenStackNav} 
         options={{
           tabBarLabel: ({color}) => (
             <Text style={{color:color, fontSize: 12, marginBottom: 3}}>Explore</Text>
