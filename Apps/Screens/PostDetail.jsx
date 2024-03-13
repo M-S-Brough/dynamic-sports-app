@@ -1,14 +1,44 @@
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity, Share } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons';
+import * as Sharing from 'expo-sharing';
 
-export default function PostDetail() {
+export default function PostDetail({navigation}) {
     const {params} = useRoute();
     const [post, setPost] = useState([]);
 
     useEffect(() => {
         params&&setPost(params.post);
-    }, [params])
+        shareButton();
+    }, [params, navigation])
+
+    const shareButton = ()=> {
+        navigation.setOptions({
+            headerRight: () => (
+                
+                <Ionicons onPress={() => sharePost()} 
+                name="share-social-outline" size={24} color="black"
+                style={{marginRight: 15}}
+                />
+                
+            ),
+          });
+
+    }
+
+    const sharePost = async() => {
+        const content = {
+            message: post?.title + "\n" + post?.desc, 
+
+        }
+        Share.share(content).then(resp => {
+            console.log(resp);
+        }, (error) => {
+            console.log(error);
+        })
+    }
+
   return (
     <ScrollView className="bg-white">
   <Image 
