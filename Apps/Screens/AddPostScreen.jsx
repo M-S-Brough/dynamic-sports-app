@@ -119,6 +119,8 @@ uploadBytes(storageRef, blob).then((snapshot) => {
         onChangeText={handleChange('desc')}
         />
 
+        
+
       <View style={{borderWidth: 1, borderRadius: 10, marginTop: 15}}>
 
          <Picker
@@ -128,7 +130,7 @@ uploadBytes(storageRef, blob).then((snapshot) => {
         onValueChange={itemValue => setFieldValue('category', itemValue)}
         >
           {categoryList.length > 0 && categoryList?.map((item, index) => (
-              <Picker.Item key={index} label={item?.name} value={item?.name} />
+              <Picker.Item key={index} label={item?.name} value={item?.name}  />
           ))}
           
         </Picker> 
