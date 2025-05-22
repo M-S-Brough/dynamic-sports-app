@@ -17,9 +17,14 @@ export default function ExploreScreenStackNav() {
         <Stack.Screen name="post-detail"  component={PostDetail} 
         options={{
             headerStyle: {
-                backgroundColor: '#a8dffb'
+                backgroundColor: '#00008b'
+                
             },
-            headerTitle: 'Details'
+            headerTitle: 'Details',
+            headerTitleStyle: {
+              color: '#fff'
+            },
+            headerTintColor: '#fff'
 
         }}
         />

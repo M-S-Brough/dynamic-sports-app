@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { app } from "../../firebaseConfig";
@@ -104,124 +105,174 @@ export default function AddPostScreen() {
 
   // The component's render method returns the UI for adding a new post
   return (
-    <KeyboardAvoidingView>
-      <ScrollView className="p-10 bg-white">
-        {/* Form for adding a new post */}
-        <Text className="text-[27px] font-bold">Add New Post</Text>
-        <Formik
-          initialValues={{
-            title: "",
-            desc: "",
-            category: "",
-            image: "",
-            userName: "",
-            userEmail: "",
-            userImage: "",
-            createdAt: Date.now(),
-          }}
-          onSubmit={(value, actions) => onSubmitMethod(value, actions)}
-          validate={(values) => {
-            const errors = {};
-            if (!values.title) {
-              ToastAndroid.show("Title Required", ToastAndroid.SHORT);
-              errors.name = "Title is required";
-            }
-            return errors;
-          }}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            setFieldValue,
-            errors,
-          }) => (
-            <View>
-              {/* Image picker section */}
-              <TouchableOpacity onPress={pickImage}>
-                {image ? (
-                  <Image
-                    source={{ uri: image }}
-                    style={{ width: 100, height: 100, borderRadius: 15 }}
-                  />
-                ) : (
-                  <Image
-                    source={require("./../../assets/images/placeholder.jpg")}
-                    style={{ width: 100, height: 100, borderRadius: 15 }}
-                  />
-                )}
-              </TouchableOpacity>
-
-              {/* Input fields for title and description */}
-              <TextInput
-                style={styles.input}
-                placeholder="Title"
-                value={values?.title}
-                onChangeText={handleChange("title")}
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder="Description"
-                value={values?.desc}
-                numberOfLines={5}
-                onChangeText={handleChange("desc")}
-              />
-
-              {/* Category picker */}
-              <View style={{ borderWidth: 1, borderRadius: 10, marginTop: 15 }}>
-                <Picker
-                  selectedValue={values?.category}
-                  style={styles.input}
-                  onValueChange={(itemValue) =>
-                    setFieldValue("category", itemValue)
-                  }
+    <ImageBackground
+      source={require("./../../assets/images/background.jpg")} // Your background image path
+      style={styles.backgroundImage} // Style for ImageBackground
+    >
+      <KeyboardAvoidingView style={styles.container}>
+        <ScrollView style={styles.scrollViewStyle}>
+          {/* Form for adding a new post */}
+          <Text style={styles.title}>Add New Post</Text>
+          <Formik
+            initialValues={{
+              title: "",
+              desc: "",
+              category: "",
+              image: "",
+              userName: "",
+              userEmail: "",
+              userImage: "",
+              createdAt: Date.now(),
+            }}
+            onSubmit={(value, actions) => onSubmitMethod(value, actions)}
+            validate={(values) => {
+              const errors = {};
+              if (!values.title) {
+                ToastAndroid.show("Title Required", ToastAndroid.SHORT);
+                errors.name = "Title is required";
+              }
+              return errors;
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              setFieldValue,
+              errors,
+            }) => (
+              <View>
+                {/* Image picker section */}
+                <TouchableOpacity
+                  onPress={pickImage}
+                  style={styles.imagePickerButton}
                 >
-                  {categoryList.length > 0 &&
-                    categoryList?.map((item, index) => (
-                      <Picker.Item
-                        key={index}
-                        label={item?.name}
-                        value={item?.name}
-                      />
-                    ))}
-                </Picker>
-              </View>
+                  {image ? (
+                    <Image source={{ uri: image }} style={styles.image} />
+                  ) : (
+                    <Image
+                      source={require("./../../assets/images/placeholder.jpg")}
+                      style={styles.image}
+                    />
+                  )}
+                </TouchableOpacity>
 
-              {/* Submit button */}
-              <TouchableOpacity
-                style={{ backgroundColor: loading ? "#ccc" : "#007BFF" }}
-                disabled={loading}
-                className="p-4 bg-blue-500 rounded-full mt-10"
-                onPress={handleSubmit}
-              >
-                {loading ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <Text className="text-white text-center text-[16px]">
-                    Submit
-                  </Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
-        </Formik>
-      </ScrollView>
-    </KeyboardAvoidingView>
+                {/* Input fields for title and description */}
+                <TextInput
+                  style={styles.input}
+                  placeholder="Title"
+                  placeholderTextColor={"white"}
+                  value={values?.title}
+                  onChangeText={handleChange("title")}
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Description"
+                  placeholderTextColor="#FFF"
+                  value={values?.desc}
+                  numberOfLines={5}
+                  onChangeText={handleChange("desc")}
+                />
+
+                {/* Category picker */}
+                <View
+                  style={styles.pickerContainer}
+                >
+                  <Picker
+                    selectedValue={values?.category}
+                    style={styles.input}
+                    onValueChange={(itemValue) =>
+                      setFieldValue("category", itemValue)
+                    }
+                  >
+                    {categoryList.length > 0 &&
+                      categoryList?.map((item, index) => (
+                        <Picker.Item
+                          key={index}
+                          label={item?.name}
+                          value={item?.name}
+                        />
+                      ))}
+                  </Picker>
+                </View>
+
+                {/* Submit button */}
+                <TouchableOpacity
+                  style={{ backgroundColor: loading ? "#ccc" : "#007BFF" }}
+                  disabled={loading}
+                  className="p-4 bg-blue-500 rounded-full mt-10"
+                  onPress={handleSubmit}
+                >
+                  {loading ? (
+                    <ActivityIndicator color="#fff" />
+                  ) : (
+                    <Text className="text-white text-center text-[16px]">
+                      Submit
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 // StyleSheet for the component
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1, // Ensure the image covers the whole screen
+    width: "100%", // Ensure width covers the whole screen
+    height: "100%", // Ensure height covers the whole screen
+  },
+  container: {
+    flex: 1, // Ensure it uses the full screen
+    opacity: 0.9, // Optional: Adjust opacity if you want to see the background more clearly
+  },
+  scrollViewStyle: {
+    paddingHorizontal: 10,
+    paddingVertical: 50, // Maintain your original padding
+  },
+
   input: {
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: "#FFF", 
     padding: 10,
     marginTop: 10,
     marginBottom: 5,
     paddingHorizontal: 17,
     textAlignVertical: "top",
     fontSize: 17,
+    color: "#fff",
+  },
+  title: {
+    fontSize: 27,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#FFFFFF', // Set border color to white
+    marginTop: 15,
+    // Any other styling you need for the picker container
+  },
+  imagePickerButton: {
+    alignItems: 'center', // Center children horizontally
+    justifyContent: 'center', // Center children vertically
+    width: '100%', // Take the full width of the parent
+    marginBottom: 20, // Add some margin at the bottom
+  },
+  image: {
+    width: 200, // Increase the width
+    height: 200, // Increase the height
+    borderRadius: 15,
+    resizeMode: 'cover', // Cover the frame of the image without stretching it
   },
 });

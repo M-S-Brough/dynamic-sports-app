@@ -6,6 +6,7 @@ export default function Slider({sliderList}) {
     <View className="mt-5">
       <FlatList 
         data={sliderList}
+        
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (

@@ -1,18 +1,32 @@
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import Post from './Post'
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React from 'react';
+import Post from './Post';
 
-export default function LatestPostList({latestPostList, heading}) {
+export default function LatestPostList({ latestPostList, heading }) {
   return (
-    <View className="mt-3">
-      <Text className="font-bold text-[20px]">{heading}</Text>
+    <View style={styles.container}>
+      <Text style={styles.heading}>{heading}</Text>
       <FlatList 
         data={latestPostList}
+        nestedScrollEnabled={true}
+        scrollEnabled={false}
         numColumns={2}
-        renderItem={({item, index}) => (
-      <Post item={item} />
-      )}
+        renderItem={({ item, index }) => <Post item={item} />}
+        keyExtractor={(item, index) => index.toString()} // Don't forget the keyExtractor for performance reasons
       />
     </View>
-  )
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 12,
+    paddingBottom: 100 // Adjust the value as needed
+  },
+  heading: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'white',
+    marginBottom: 8, // Spacing below the heading
+  },
+});

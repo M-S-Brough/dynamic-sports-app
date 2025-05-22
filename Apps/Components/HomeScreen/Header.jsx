@@ -14,8 +14,8 @@ export default function Header() {
     />
     
     <View>
-      <Text className="text-[16px]">Welcome</Text>
-      <Text className="text-[20px] font-bold">{user?.fullName}</Text>
+      <Text className="text-[16px] text-white">Welcome</Text>
+      <Text className="text-[20px] font-bold text-white">{user?.fullName}</Text>
     </View>
   </View>
   

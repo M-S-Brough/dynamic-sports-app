@@ -1,5 +1,11 @@
 // Importing necessary React Native and React components
-import { View, Text, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  ImageBackground,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 // Importing Firestore functions to interact with the database
 import {
@@ -37,21 +43,43 @@ export default function ExploreScreen() {
     const q = query(collection(db, "UserPost"), orderBy("createdAt", "desc"));
     // Executing the query and storing the result in 'snapshot'
     const snapshot = await getDocs(q);
+    
 
     // Iterating over each document in the snapshot and adding its data to the postList state
     snapshot.forEach((doc) => {
       setPostList((postList) => [...postList, doc.data()]);
+      console.log(doc);
     });
   };
 
   // Rendering the component UI
   return (
-    // Using ScrollView to allow scrolling through the content
-    <ScrollView className="p-5 py-8 bg-white flex-1">
-      {/* Displaying a heading */}
-      <Text className="text-[24px] font-bold">Explore More</Text>
-      {/* Rendering the LatestPostList component and passing the postList as props */}
-      <LatestPostList latestPostList={postList} />
-    </ScrollView>
+    <ImageBackground
+      source={require("./../../assets/images/background.jpg")} // Make sure to use the correct path
+      style={styles.backgroundImage}
+    >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        {/* Displaying a heading */}
+        <Text style={styles.headerText}>Explore More</Text>
+        {/* Rendering the LatestPostList component and passing the postList as props */}
+        <LatestPostList latestPostList={postList} />
+      </ScrollView>
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1, // This will ensure the image covers the whole screen
+  },
+  contentContainer: {
+    padding: 5, // Adjusted padding; ensure it matches your design needs
+    paddingTop: 32, // Additional padding at the top for aesthetic spacing
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16, // Add some space below the header text
+    color: "#FFFFFF", // Ensure text color contrasts well with your background
+  },
+});

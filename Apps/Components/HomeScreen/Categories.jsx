@@ -9,9 +9,11 @@ export default function Categories({categoryList}) {
   return (
 
     <View className="mt-3">
-      <Text className="font-bold text-[20px]">Categories</Text>
+      <Text className="font-bold text-[20px] text-white">Categories</Text>
       <FlatList 
         data={categoryList}
+        nestedScrollEnabled={true}
+        scrollEnabled={false}
         numColumns={4}
         renderItem={({item, index}) => (
           <TouchableOpacity 
@@ -23,7 +25,7 @@ export default function Categories({categoryList}) {
             <Image source={{uri: item?.icon}}
             className="w-[40px] h-[40px]" />
 
-            <Text className="text-[12px] mt-1">{item.name}</Text>
+            <Text className="text-[12px] mt-1  text-white">{item.name}</Text>
             
              </TouchableOpacity>
         )}

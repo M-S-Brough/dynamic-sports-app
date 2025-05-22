@@ -16,6 +16,11 @@ export default function TabNavigation() {
   return (
     <Tab.Navigator screenOptions={{
       headerShown: false,
+      tabBarStyle: {
+        backgroundColor: 'black',
+        position: 'absolute',
+        
+      }
     }}>
         <Tab.Screen name='home-nav' component={HomeScreenStackNav}
           options={{

@@ -19,18 +19,26 @@ export default function ProfileScreenStackNav() {
         component={MyPosts}
         options={{
           headerStyle: {
-              backgroundColor: '#a8dffb'
+              backgroundColor: '#00008b'
           },
-          headerTitle: 'My Posts'
+          headerTitle: 'My Posts',
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: '#fff'
 
       }}
       />
       <Stack.Screen name="post-detail"  component={PostDetail} 
         options={{
             headerStyle: {
-                backgroundColor: '#a8dffb'
+                backgroundColor: '#00008b'
             },
-            headerTitle: 'Details'
+            headerTitle: 'Details',
+            headerTitleStyle: {
+              color: '#fff'
+            },
+            headerTintColor: '#fff'
 
         }}
         />
