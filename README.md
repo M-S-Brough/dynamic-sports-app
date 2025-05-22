@@ -87,8 +87,5 @@ The app aims to solve real-world communication issues experienced by youth footb
 
 ## 👨‍🎓 Author
 
-**Mark Brough**  
-Student Roll No: 00628924  
+**Mark Brough**    
 Final Year Project — University of Salford  
-Supervisors: Dr. Ian Drumm & Dr. Norman Murray  
-Module: AGE929 Software Engineering
